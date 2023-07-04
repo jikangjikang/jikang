@@ -1,0 +1,374 @@
+/*CSS美化1*/
+.image{
+    padding-left: 20%; /*网页图片居中*/
+    z-index: 10005;/*防止图片被覆盖*/
+
+}
+div img{
+    cursor:pointer/*手型*/
+    transition : transform .2s ease-in-out;/*变化时间过渡*/
+
+}
+div img:hover{
+    transform: scale(1.1); /*扩大1.1倍*/
+}
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    color: #555;
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.5;
+}
+
+.is-preload #wrapper {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.is-preload #wrapper.hidden {
+    opacity: 1;
+}
+
+/* Wrapper */
+#wrapper {
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -moz-transition: opacity 0.4s ease-in-out;
+    -webkit-transition: opacity 0.4s ease-in-out;
+    -ms-transition: opacity 0.4s ease-in-out;
+    transition: opacity 0.4s ease-in-out;
+}
+
+/* Main */
+#main {
+    margin-left: 25em;
+    padding: 2em;
+    min-width: 20em;
+    max-width: 45em;
+    flex-grow: 1;
+}
+
+.is-preload .inner {
+    padding: 0;
+}
+
+/* Header */
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10003; /*置于图层适当位置*/
+    width: 23em;
+    border-bottom: solid 2px #e6e6e6;
+    background: #ffffff;
+    height: 4em;
+    line-height: 4em;
+    text-align: center;
+    
+    border-left: solid 25px red;
+}
+
+#header .logo {
+   
+    color: black;
+    text-decoration: none;
+    font-size: 1.3em;
+}
+
+#header .logo strong {
+    font-weight: 800;
+    color: #1da1f2;
+}
+
+#header ul {
+    
+    list-style: none;
+    margin: 1 1 1 1;
+    padding-top: 15em;
+}
+
+#header ul li {
+    
+    margin-left: -40em;
+   
+   
+}
+
+#header ul li a {
+    border: none;
+    display: block;
+    padding: 0.75em 1em;
+    text-decoration: none;
+    color: inherit;
+}
+
+
+
+#header ul li a span.label {
+    border-radius: 4px;
+    float: right;
+    line-height: inherit;
+    background: #1da1f2;
+    color: #fff;
+    padding: 0 8px;
+    margin-left: 8px;
+    transition: opacity 0.25s ease-in-out;
+    text-decoration: none;
+}
+
+#header ul li a:hover span.label {
+    opacity: 0.5;
+}
+
+/* Banner */
+.content:first-child p::first-letter{
+    font-size: 500%;
+    color: #1da1f2;
+}/*选择content类中的第一个子p元素中的第一个字母*/
+#banner {
+    margin-top: 4em;
+    text-align: center;
+    padding-bottom: 10em;
+}
+
+#banner .content {
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+#banner h1 {
+    margin-bottom: 0.5em;
+    color: #000;
+    font-size: 2.75em;
+}
+
+#banner p {
+    color: #999;
+}
+
+#banner img {
+    display: block;
+    margin: 1em auto;
+    max-width: 100%;
+}
+
+#banner ul.actions {
+    margin-top: 2.5em;
+    text-align: center;
+}
+
+#banner ul.actions li {
+    display: inline-block;
+    margin: 0 0.75em;
+}
+
+#banner .button {
+    background-color: #1da1f2;
+    color: #fff;
+    padding: 0.75em 1.25em;
+    border-radius: 4px;
+    border-bottom-color: rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+#banner .button:hover {
+    background: rgba(0, 0, 0, 0.075);
+    color: #1da1f2;
+}
+
+/* Section */
+section {
+    color: black;
+}
+section p:nth-last-child(2){
+    text-indent: 2em;
+    font-weight: bolder;
+}/*选择倒数第二个p元素，缩进*/
+
+header.major {
+    margin-bottom: 2em;
+}
+
+.features article {
+    margin-bottom: 3em;
+}
+
+.features article span {
+    text-align: center;
+    display: inline-block;
+    font-size: 1.5em;
+    margin-bottom: 2em;
+}
+
+.features :nth-child(2) h3::first-letter{
+    color: palevioletred;
+    font-size: xx-large;
+}
+.features :first-child h3::first-letter{
+    color: navy;
+    font-size: xx-large;
+
+}
+.features :nth-child(3) h3::first-letter{
+    color: gold;
+    font-size: xx-large;
+}
+.features :nth-child(4) h3::first-letter{
+    color: aqua;
+    font-size: xx-large;
+}/*四个字体首字母分别设置不同颜色*/
+
+.features article h3 {
+    margin-bottom: 0.5em;
+}
+
+.features article p {
+    color: #999;
+    text-indent: 2em;
+}
+
+.posts article {
+    margin-bottom: 4em;
+}
+
+.posts article h3 {
+    margin-bottom: 0.5em;
+    color: #000;
+}
+
+.posts article p {
+    color: #999;
+    font-size: 0.9em;
+    line-height: 1.6em;
+}
+
+.posts article ul.actions {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.posts article ul.actions li {
+    display: inline-block;
+    margin: 0 0.5em;
+}
+
+.posts article ul.actions .button {
+    background-color: #1da1f2;
+    color: #fff;
+    padding: 0.75em 1.25em;
+    border-radius: 4px;
+    border-bottom-color: rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.posts article ul.actions .button:hover {
+    background: rgba(0, 0, 0, 0.075);
+    color: #1da1f2;
+}
+
+/* Sidebar */
+#sidebar {
+    color: #000;
+    position: fixed; /*固定侧边栏*/
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10002;
+    width: 25em;
+    padding-top: 3em;
+    background: hsl(203, 89%, 53%,0.5) ;
+
+    border-left: solid 5px grey;
+    border-bottom: ;
+}
+
+
+#sidebar .inner {
+    
+    padding-top: 2em;
+}
+
+
+
+#sidebar #search {
+    margin-bottom: 1.5em;
+}
+
+#sidebar #search input[type="text"] {
+    width: 90%;
+    height: 2em;
+    margin-left: 1.5em;
+    margin-bottom: -4em;
+    margin-top: -3em;
+}/*搜索框*/
+
+#sidebar header.major {
+    margin-left: 0.5em;
+    margin-bottom: 2em;
+    font-size: 1.5em;
+}/*对大标题进行调试*/
+
+#sidebar nav ul {
+   
+    margin-top: -2em;
+    margin-left: -1em;
+    list-style-type: square;
+}
+
+#sidebar nav ul li {
+    padding: 0.25em 0;
+    border-bottom: solid 2px #e6e6e6;
+}
+
+#sidebar nav ul li:first-child {
+    padding-top: 0;
+}
+
+#sidebar nav ul li a:first-child {
+    padding-left: 1em;
+}
+
+#sidebar nav ul li a {
+    color: inherit;
+    text-decoration: none;
+    padding: 0.5em 1.5em 0.25em 1.5em;
+    display: block;
+    vertical-align: middle;
+}
+
+#sidebar nav ul li a:hover {
+    background: rgba(0, 0, 0, 0.075);
+}
+
+#sidebar nav ul li span.subheading {
+    color: #999;
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    font-size: 0.9em;
+}
+
+#sidebar .contact li {
+    margin-right: 0.5em;
+    margin-bottom: 0.75em;
+}
+#sidebar a{
+    color: white;
+}
+/* Footer */
+#footer {
+    position: fixed; /* 底左边栏进行固定定位 */
+    bottom: 0;
+    left: 0;
+    width: 27em;
+    border-bottom: solid 10px red;
+    background-color: #1da1f2 ;
+    font-size: 0.8em;
+    line-height: 2em;
+    text-align: center;
+    opacity: 0.5;
+}
