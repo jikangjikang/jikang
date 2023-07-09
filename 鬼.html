@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>鬼物想跟你比试比试</title>
+    <style>
+        body{
+            background-image: url("背景.jpg");
+        }
+        #game-container {
+            position: fixed;
+            left: 15em;
+            top: 5em;
+            width: 1200px;
+            height: 650px;
+            z-index: 1005;
+            background-color: white;
+            border: solid 10px black;
+            border-radius: 10px;
+            overflow: hidden;
+            
+        }
+
+        #person {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            z-index: 1007;
+          
+        }
+
+        .ghost {
+            position: absolute;
+            color: red;
+            font-size: 50px;
+            z-index: 1007;
+        }
+
+        #result {
+            position: absolute;
+            top: 18%;
+            left: 52%;
+            transform: translate(-50%, -50%);
+           font-size: 30px;
+           border-radius: 5px;
+           background-color: cornflowerblue;
+             color: white;
+             z-index: 1006;
+             text-align: center;
+             
+        }
+        #timer {
+      position: absolute;
+      top: 2%;
+      left: 45%;
+      background-color: cornflowerblue;
+      color: aliceblue;
+      padding:10px;
+      border-radius: 5px;
+      border: solid 5px black;
+      z-index: 1006;
+    }
+     #xt{
+        position: absolute;
+        background-color: cornflowerblue;
+      color: aliceblue;
+      padding:10px;
+      border-radius: 5px;
+      border: solid 5px black;
+      z-index: 1006;
+     }
+     #yy{
+        position:fixed;
+        bottom: 0.5em;
+        left: 200px;
+      
+        background-color: cornflowerblue;
+      color: aliceblue;
+      padding:10px;
+      border-radius: 5px;
+      border: solid 5px black;
+      font-size: larger;
+      z-index: 1006;
+     }
+     #cz{
+        position: absolute;
+        background-color: cornflowerblue;
+      color: aliceblue;
+      left: 10em;
+      padding:10px;
+      border-radius: 5px;
+      border: solid 5px black;
+      z-index: 1006;
+     }
+    </style>
+</head>
+<body >
+   
+    <div id="game-container">
+        <div id="person">
+            <img id="tt" src="人.gif" height="150px">
+        </div>
+        <div class="ghost">鬼</div>
+        <div class="ghost">鬼</div>
+        <!-- 添加更多的 .ghost 元素 -->
+        <div class="ghost">鬼</div>
+        <div class="ghost">鬼</div>
+        <div class="ghost">鬼</div>
+        <div class="ghost">鬼</div>
+        <div class="ghost">鬼</div>
+        <div class="ghost">鬼</div>
+        <div class="ghost">鬼</div>
+        <div class="ghost">鬼</div>
+       
+    </div>
+    <div id="timer">距离逃出生天还剩：30秒</div>
+    <div id="result"></div>
+    <div id="xt"></div>
+    <audio id="mvp" src="lowlife.mp3"></audio>
+    <audio id="cc" src="1.mp3"></audio>
+    <audio id="lose" src="lose.mp3"></audio>
+    <div id="yy">
+       <strong style="color: black;">恐慌值</strong>：人物在被控制进行上下移动时会积累恐慌值，恐慌值越高，人物一次移动的距离越大越难以控制，来还原人受到大量惊吓后撒腿狂奔的过程</p>
+    </div>
+    <div id="cz">
+        操作提示："W"向上 "S"向下 "A" 向左 "D"向右 单击空白处开始
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            // 获取游戏容器和角色元素
+            const gameContainer = document.getElementById('game-container');
+            const personElement = document.getElementById('person');
+            const ghostElements = document.getElementsByClassName('ghost');
+            const timerElement = document.getElementById('timer');
+            const resultElement = document.getElementById('result');
+
+            // 游戏参数
+            const gameWidth = gameContainer.clientWidth;
+            const gameHeight = gameContainer.clientHeight;
+            const characterSize = 30; // 角色尺寸
+
+            // 初始化角色位置
+            let personX = (gameWidth - characterSize) / 2;
+            let personY = (gameHeight - characterSize) / 2;
+
+            personElement.style.left = `${personX}px`;
+            personElement.style.bottom = `${personY}px`;
+            let ghosts = [];
+            let xintiao=0;
+
+            for (let i = 0; i < ghostElements.length; i++) {
+                let ghost = {
+                    x: Math.random() * (gameWidth - characterSize),
+                    y: Math.random() * (gameHeight - characterSize),
+                    xSpeed: Math.random() * 60 - 1, // 水平速度
+                    ySpeed: Math.random() * 60 - 1 // 垂直速度
+                };
+                ghosts.push(ghost);
+                ghostElements[i].style.left = ghost.x + 'px';
+                ghostElements[i].style.top = ghost.y + 'px';
+            }
+
+            personElement.style.left = personX + 'px';
+            personElement.style.top = personY + 'px';
+
+            // 初始化计时器
+            let timeLeft = 30;
+            timerElement.textContent = '距离逃出生天还剩：' + timeLeft + '秒';
+
+            // 游戏运行状态
+            let isRunning = true;
+            
+
+            // 更新角色位置和计时器显示
+            // 更新鬼的位置
+function updateGhosts() {
+    for (let i = 0; i < ghosts.length; i++) {
+        let ghost = ghosts[i];
+        // 随机选择一个方向（上下左右）
+        let direction = Math.floor(Math.random() * 4);
+        // 随机选择一个距离（1-3个角色大小）
+        let distance = Math.floor(Math.random() * 3) + 1;
+        // 根据随机选择的方向更新鬼的位置
+        switch (direction) {
+            case 0: // 上移
+                ghost.y -= distance * characterSize;
+                break;
+            case 1: // 下移
+                ghost.y += distance * characterSize;
+                break;
+            case 2: // 左移
+                ghost.x -= distance * characterSize;
+                break;
+            case 3: // 右移
+                ghost.x += distance * characterSize;
+                break;
+        }
+        // 确保鬼在游戏容器内部
+        ghost.x = Math.max(0, Math.min(gameWidth - characterSize, ghost.x));
+        ghost.y = Math.max(0, Math.min(gameHeight - characterSize, ghost.y));
+        
+        // 更新鬼的位置
+        ghostElements[i].style.left = ghost.x + 'px';
+        ghostElements[i].style.top = ghost.y + 'px';
+    }
+}
+
+// 更新角色位置和计时器显示
+function updateGame() {
+    // 更新人的位置
+    if(xintiao >= 0){
+        document.getElementById('xt').textContent='恐慌值：' + xintiao;
+    }
+    document.addEventListener('keydown', function(event) {
+        if (!isRunning) return;
+
+        const speed = 20; // 移动速度
+        switch (event.key) {
+            case 'w': // 上移
+                xintiao++;
+                personY = Math.max(0, personY - speed);
+                document.getElementById('cc').play();
+                document.getElementById('cc').volume=0.2;
+                break;
+            case 'a': // 左移
+                personX = Math.max(0, personX - speed);
+                document.getElementById('cc').play();
+                document.getElementById('cc').volume=0.2;
+                break;
+            case 's': // 下移
+                xintiao++;
+                personY = Math.min(gameHeight - characterSize, personY + speed);
+                document.getElementById('cc').play();
+                document.getElementById('cc').volume=0.2;
+                break;
+            case 'd': // 右移
+                personX = Math.min(gameWidth - characterSize, personX + speed);
+                document.getElementById('cc').play();
+                document.getElementById('cc').volume=0.2;
+                break;
+        }
+        personElement.style.left = personX + 'px';
+        personElement.style.top = personY + 'px';
+
+                    // 判断游戏结果
+                    for (let i = 0; i < ghostElements.length; i++) {
+                        const ghost = ghosts[i];
+                        const ghostX = ghost.x;
+                        const ghostY = ghost.y;
+                        if (Math.abs(personX - ghostX) < characterSize && Math.abs(personY - ghostY) < characterSize) {
+                            // 鬼抓到人了，显示失败界面
+                            clearInterval(timerInterval);
+                            resultElement.textContent = '输！大输特输！鬼才是这场决斗中的赢家！正在向所有人高奏鬼的MVP凯歌 音乐盒 StatTrak | Evil Eye  - 邪眼';
+                            document.getElementById('result').style.border="solid 5px black";
+                            document.getElementById('lose').play();
+                            isRunning = false;
+                            break;
+                        }
+                    }
+                });
+
+                // 更新鬼的位置
+                for (let i = 0; i < ghostElements.length; i++) {
+                    let ghost = ghosts[i];
+                    ghost.x += ghost.xSpeed;
+                    ghost.y += ghost.ySpeed;
+                    ghost.x = Math.max(0, Math.min(gameWidth - characterSize, ghost.x));
+                    ghost.y = Math.max(0, Math.min(gameHeight - characterSize, ghost.y));
+                    ghostElements[i].style.left = ghost.x + 'px';
+                    ghostElements[i].style.top = ghost.y + 'px';
+                    updateGhosts();
+
+                    // 判断游戏结果
+                    const ghostX = ghost.x;
+                    const ghostY = ghost.y;
+
+                    if (Math.abs(personX - ghostX) < characterSize && Math.abs(personY - ghostY) < characterSize) {
+                        // 鬼抓到人了，显示失败界面
+                        clearInterval(timerInterval);
+                        resultElement.textContent = '输！大输特输！鬼才是这场决斗中的赢家！正在向所有人高奏鬼的MVP凯歌 音乐盒 StatTrak | Evil Eye  - 邪眼';
+                            document.getElementById('result').style.border="solid 5px black";
+                            document.getElementById('lose').play();
+                        isRunning = false;
+                        break;
+                    }
+
+                    if (timeLeft === 0 && i === ghostElements.length - 1) {
+                        // 时间耗尽，鬼没抓到人，显示获胜界面
+                        clearInterval(timerInterval);
+                        resultElement.textContent = '王牌！你在这场决斗中躲避了鬼的追击!正在向所有人高奏您的MVP凯歌 音乐盒 StatTrak | Neck Deep  - 躺平青年';
+                         document.getElementById("mvp").play();//播放歌曲
+                         document.getElementById("tt").src="sl.gif";//替换为人物庆祝画面
+                         document.getElementById("tt").style.height = "350px";//突出主体人物
+                         document.getElementById('result').style.border="solid 5px black";//交互框样式设计
+                        isRunning = false;
+                    }
+                }
+            }
+
+            // 更新计时器显示
+            function updateTimer() {
+                if (isRunning) {
+                    timerElement.textContent = '距离逃出生天还剩：' + timeLeft + '秒';
+                    timeLeft--;
+                }
+            }
+
+            // 开始游戏
+            const timerInterval = setInterval(function() {
+                updateTimer();
+                updateGame();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
+
+
